@@ -60,7 +60,7 @@ class MockChatModel(BaseChatModel):
                 "**关键词**：人工智能、翻译教育、英语专业、神经网络机器翻译、CAT 工具、教学变革。\n\n"
                 "**推荐搜索词**：AI translation education、机器翻译 英语教学、翻译技术 课程设计。"
             )
-        elif "search strategist" in system_text:
+        elif "search specialist" in system_text or "search strategist" in system_text:
             return "1. AI translation education impact\n2. 人工智能 英语翻译 教学\n3. 机器翻译 译者能力培养"
         elif "report outline" in system_text:
             return (

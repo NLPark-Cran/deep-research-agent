@@ -6,7 +6,7 @@ from langchain_openai import ChatOpenAI
 from agent.mock_llm import MockChatModel
 
 
-def get_llm(model: str | None = None, temperature: float = 0.7):
+def get_llm(model: str | None = None, temperature: float = 0.7, timeout: int | None = None):
     """Create a ChatOpenAI instance.
 
     Priority:
@@ -48,4 +48,6 @@ def get_llm(model: str | None = None, temperature: float = 0.7):
         base_url=base_url,
         api_key=api_key,
         temperature=temperature,
+        timeout=timeout or int(os.environ.get("LLM_TIMEOUT_SECONDS", "300")),
+        max_retries=1,
     )
