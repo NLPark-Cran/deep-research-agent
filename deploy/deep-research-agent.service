@@ -1,0 +1,19 @@
+[Unit]
+Description=Deep Research Agent Gradio Web UI
+After=network.target
+
+[Service]
+Type=simple
+User=root
+Group=root
+WorkingDirectory=/root/workspace/test0607/final
+Environment=PATH=/root/workspace/test0607/final/.venv/bin
+Environment=GRADIO_SERVER_NAME=0.0.0.0
+Environment=GRADIO_SERVER_PORT=7860
+EnvironmentFile=/root/workspace/test0607/final/.env
+ExecStart=/root/workspace/test0607/final/.venv/bin/python -m app.main
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
