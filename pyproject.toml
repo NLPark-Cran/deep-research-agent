@@ -1,0 +1,31 @@
+[project]
+name = "deep-research-agent"
+version = "0.1.0"
+description = "AI course final project: a LangGraph-based Deep Research Agent with Gradio UI."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "Cran", email = "cran@example.com" }
+]
+dependencies = [
+    "langgraph>=0.3.0",
+    "langchain>=0.3.0",
+    "langchain-openai>=0.3.0",
+    "gradio==6.18.0",
+    "ddgs>=9.0.0",
+    "requests>=2.32.0",
+    "python-docx>=1.1.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "notebook>=7.0.0",
+    "ipykernel>=6.29.0",
+    "grandalf>=0.8.0",
+]
+
+[tool.setuptools]
+packages = ["agent", "app"]
