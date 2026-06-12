@@ -1,6 +1,8 @@
 # Deep Research Agent — AI 课程期末大作业
 
-一个基于 **LangGraph** 的深度研究助手 Agent，支持调用 **Moonshot (Kimi)** 或 **TokenDance** 云端大模型，并配以 **Gradio 6.x** Web UI。
+一个基于 **LangGraph** 的深度研究助手 Agent，调用 **TokenDance** 云端大模型（`qwen3.7-plus`），并配以 **Gradio 6.x** Web UI。
+
+在线演示：https://research.hub.tt2.li
 
 ## 功能
 
@@ -18,13 +20,24 @@
 
 | 组件 | 版本/说明 |
 |------|-----------|
-| Python | 3.11+ |
+| Python | 3.13 |
 | LangGraph | 1.2.4 |
 | langchain_openai | 1.3.0 |
-| 云端模型 | kimi-k2.6（Moonshot）或 qwen3.7-plus（TokenDance） |
-| 搜索工具 | DuckDuckGo（免费）/ TokenDance UniFuncs web-search |
+| 云端模型 | qwen3.7-plus @ TokenDance |
+| 搜索工具 | DuckDuckGo（默认）/ TokenDance UniFuncs web-search |
 | Web UI | Gradio 6.18.0 |
-| 文档生成 | python-docx 1.2.0 |
+| 文档导出 | python-docx 1.2.0 |
+
+## 真实运行示例
+
+主题：`人工智能对英语专业翻译教育的影响`
+
+- 完整流程耗时：约 555 秒
+- 最终报告长度：约 5200 字符
+- 迭代次数：2 次（起草 → 反思 → 修订 → 反思 → 终稿）
+- 消息类型：HumanMessage、AIMessage、SystemMessage、ToolMessage
+
+详见 `notebook/final_project.ipynb` 中的执行结果。
 
 ## 环境配置
 
@@ -33,9 +46,7 @@
    cp .env.example .env
    ```
 
-2. 编辑 `.env`，填入有效的 API Key：
-   - 推荐：`MOONSHOT_API_KEY`（Kimi / Moonshot）
-   - 备选：`TOKENDANCE_API_KEY`（词元跳动）
+2. 编辑 `.env`，填入 `TOKENDANCE_API_KEY`。
 
 3. （可选）启用 Mock LLM 模式以离线测试结构：
    ```bash
@@ -68,19 +79,19 @@
 ```
 agent/           # LangGraph Agent 核心代码
 app/             # Gradio Web UI
-notebook/        # 作业提交 Notebook（含执行结果）
+notebook/        # 作业提交 Notebook（含真实执行结果）
 docs/            # 说明文档与技术调研笔记
 output/          # 生成的报告文件
 ```
 
-## 部署（可选）
+## 部署
 
-使用 Nginx 反向代理到 `*.hub.tt2.li`：
+已配置 Nginx 反向代理到 `research.hub.tt2.li`：
 
 ```nginx
 server {
     listen 80;
-    server_name aiagent.hub.tt2.li;
+    server_name research.hub.tt2.li;
 
     location / {
         proxy_pass http://127.0.0.1:7860;
@@ -88,21 +99,19 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 }
 ```
 
-然后启动 Gradio：
+启动 Gradio：
 
 ```bash
 GRADIO_SERVER_NAME=0.0.0.0 GRADIO_SERVER_PORT=7860 python -m app.main
 ```
 
-## 注意事项
+## GitHub 仓库
 
-- 当前 `.env` 中填入了用户提供的 API Key。如果额度不足或认证失败，可启用 `MOCK_LLM=1` 先验证代码结构，再充值或更换有效 Key。
-- Notebook `final_project.ipynb` 默认在 `MOCK_LLM=1` 模式下执行并保存结果，用于展示 Agent 完整流程。
+https://github.com/NLPark-Cran/deep-research-agent
 
 ## 作者
 
